@@ -52,7 +52,7 @@ build: false
 
 test_script:
   - conda install nose
-  - nosetests .\\jupyter_helpers\\tests -vv --with-xunit
+  - nosetests .\\%PROJECT_NAME%\\tests -vv --with-xunit
 
 after_test:
   - ps: $wc = New-Object 'System.Net.WebClient'
