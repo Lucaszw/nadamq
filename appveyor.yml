@@ -38,7 +38,7 @@ install:
   - ps: $json = Get-Content '.\\package\\info\\index.json' | Out-String | ConvertFrom-Json
   # Add members here:
   - ps: $json | Add-Member git_repository '$env:GIT_REPOSITORY'
-  - ps: $json | Add-Member git_repository '$env:LICENSE'
+  - ps: $json | Add-Member license '$env:LICENSE'
   # repackage tarfile
   - ps: $json | ConvertTo-JSON | % { [System.Text.RegularExpressions.Regex]::Unescape($_) } | Set-Content .\package\info\index.json
   - 7z a package2.tar .\package\* -ttar
