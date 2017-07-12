@@ -58,11 +58,11 @@ after_test:
 
   # repackage tarfile
   - ps: $json | ConvertTo-JSON | % { [System.Text.RegularExpressions.Regex]::Unescape($_) } | Set-Content .\package\info\index.json
-  - 7z a package2.tar .\package\* -ttar
-  - 7z a package2.tar.bz2 package2.tar -tbzip2
+  - 7z a %PROJECT_NAME%.tar .\package\* -ttar
+  - 7z a %PROJECT_NAME%.tar.bz2 %PROJECT_NAME%.tar -tbzip2
 
   # Save tarfile as artifact
-  - appveyor PushArtifact package2.tar.bz2
+  - appveyor PushArtifact %PROJECT_NAME%.tar.bz2
 
   # Upload to Anaconda Cloud
   # - binstar -t %BINSTAR_TOKEN% upload --force package2.tar.bz2
