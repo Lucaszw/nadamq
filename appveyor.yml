@@ -26,9 +26,12 @@ install:
   - conda create --name %PROJECT_NAME%
   - "call %MINICONDA%\\Scripts\\activate.bat %PROJECT_NAME%"
   - conda info -a
-  # Get Package location, and build package
+  # Get output package location
   - FOR /F "tokens=*" %%a in ('conda-build . --output') do SET PACKAGE_LOCATION=%%a
   - echo %PACKAGE_LOCATION%
+  # Set environment variable for project location (may be used in bld.bat)
+  - set "PROJECT_DIRECTORY=%cd%"
+  # Build package
   - conda-build .
   # Add repository information to info.json file (unpackage tarfile to access index.json)
   - ps: $package_name = (( $env:PACKAGE_LOCATION -split '\\') | Select-Object -Last 1) -split '\.bz2' | Select-Object -First 1
@@ -48,11 +51,9 @@ install:
   # Upload to Anaconda Cloud
   # - binstar -t %BINSTAR_TOKEN% upload --force package2.tar.bz2
 
+# Handle build and tests using conda (defined in .conda-recipe/meta.yaml)
 build: false
-
-test_script:
-  - conda install nose
-  - nosetests .\\%PROJECT_NAME%\\tests -vv --with-xunit
+test_script: false
 
 after_test:
   - ps: $wc = New-Object 'System.Net.WebClient'
